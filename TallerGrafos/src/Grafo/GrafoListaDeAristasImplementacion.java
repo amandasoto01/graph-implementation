@@ -53,8 +53,8 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 	@Override
 	public void addVertex(Object vertex) {
 		if(!hasVertex(vertex)) {
-			id.put((T) vertex, id.size()+1);
-			di.put(di.size()+1, (T) vertex);
+			id.put((T) vertex, id.size());
+			di.put(di.size(), (T) vertex);
 		}
 	}
 
@@ -77,9 +77,12 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 
 	@Override
 	public boolean hasEdge(Object origin, Object destination) {
-		
 		if(id.containsKey(origin) && id.containsKey(destination)) {
-			return true;
+			for(int i = 0; i<aristas.size(); i++) {
+				if(aristas.get(i).origen == origin && aristas.get(i).destino == destination) {
+					return true;
+				}
+			}
 		}
 		return false;
 	}
@@ -114,6 +117,12 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 	@Override
 	public Vector prim() {
 		return null;
+	}
+
+	@Override
+	public int getVertexPosition(Object value) {
+		// TODO Auto-generated method stub
+		return -1;
 	}
 
 }

@@ -1,5 +1,7 @@
 package Grafo;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
@@ -29,8 +31,8 @@ public class GrafoMatrizAdyacenciaImplementacion<T> extends GrafoMatrizAdyacenci
 	public void addVertex(Object vertex) {
 		// TODO Auto-generated method stub
 		if(!hasVertex(vertex)) {
-			id.put((T)vertex,  id.size()+1 );
-			di.put(di.size()+1, (T) vertex);
+			id.put((T)vertex,  id.size());
+			di.put(di.size(), (T) vertex);
 		}
 		
 		for(int i=0; i<graph.size(); i++) {
@@ -233,8 +235,53 @@ public class GrafoMatrizAdyacenciaImplementacion<T> extends GrafoMatrizAdyacenci
 	@Override
 	public Vector kruskall() {
 		// TODO Auto-generated method stub
+		Vector< Pair<Double, Pair<Integer, Integer> > > lista = new Vector<Pair<Double, Pair<Integer, Integer> > >();
+		Double mst = 0.0;
+		Vector< Boolean > arbol = new Vector<Boolean>();
+		Vector < Pair < T, T> > resultado = new Vector< Pair<T,T> >();
+		
+		for(int i=0; i<graph.size(); i++) {
+			for(int j=0; j<graph.size(); j++) {
+				if(graph.get(i).get(j) != INF) {
+					lista.add(new Pair(graph.get(i).get(j), new Pair(i,j)));
+				}
+			}
+		}
+		
+		Collections.sort(lista, new PairDoublePairIntegerIntegerComparator());
+		
+		for(int i=0; i<graph.size(); i++) {
+			arbol.add(false);
+		}
+		
+		
+		
+		for(int k=0; k<lista.size();k++) {
+			Pair< Double , Pair <Integer, Integer >> pareja = lista.get(k);
 			
-		return null;
+			if(arbol.get(pareja.getSecond().getFirst()) == false && 
+					arbol.get(pareja.getSecond().getSecond()) == false) {
+				resultado.add(new Pair(di.get(pareja.getSecond().getFirst()),
+						di.get(pareja.getSecond().getSecond())));
+				arbol.set(pareja.getSecond().getFirst(), true);
+				arbol.set(pareja.getSecond().getSecond(), true);
+			} else if((arbol.get(pareja.getSecond().getFirst()) == true && 
+					arbol.get(pareja.getSecond().getSecond()) == true)) {
+				//Do nothing
+			} else {
+				if(arbol.get(pareja.getSecond().getFirst()) == false) {
+					resultado.add(new Pair(di.get(pareja.getSecond().getFirst()),
+							di.get(pareja.getSecond().getSecond())));
+					arbol.set(pareja.getSecond().getFirst(), true);
+				} else {
+					resultado.add(new Pair(di.get(pareja.getSecond().getFirst()),
+							di.get(pareja.getSecond().getSecond())));
+					arbol.set(pareja.getSecond().getSecond(), true);
+				}
+			}
+		}
+		
+		return resultado;
 	}
 
 	@Override
@@ -243,4 +290,30 @@ public class GrafoMatrizAdyacenciaImplementacion<T> extends GrafoMatrizAdyacenci
 		return null;
 	}
 
+	@Override
+	public int getVertexPosition(Object value) {
+		if(id.containsKey(value)== false) {
+			return -1;
+		}
+		return id.get(value);
+	}
+
+}
+
+class PairDoublePairIntegerIntegerComparator implements Comparator<Pair<Double, Pair<Integer, Integer> > > 
+{ 
+
+    public int compare(Pair<Double, Pair<Integer, Integer> > a, Pair<Double, Pair<Integer, Integer> > b) 
+    { 
+    	if(a.getFirst() == b.getFirst()) {
+    		if(a.getSecond().getFirst() == b.getSecond().getFirst() ) {
+    			return a.getSecond().getSecond().compareTo(b.getSecond().getSecond());
+    		} else {
+    			return a.getSecond().getFirst().compareTo(b.getSecond().getFirst());
+    		}
+    	} else {
+    		return a.getFirst().compareTo(b.getFirst()); 
+    	}
+    }
+        
 }
