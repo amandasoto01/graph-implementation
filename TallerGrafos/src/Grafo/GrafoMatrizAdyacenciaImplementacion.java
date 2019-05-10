@@ -231,6 +231,32 @@ public class GrafoMatrizAdyacenciaImplementacion<T> extends GrafoMatrizAdyacenci
         // Print the shortest distance matrix
         return dist;
 	}
+	
+	public Vector< Vector<Double> > floydWarshallByMultiplication() {
+		Vector< Vector<Double> >dist = new Vector<Vector<Double>>();
+		for(int i = 0; i<graph.size(); ++i) {
+			Vector<Double> d = new Vector<>();
+			for(int j = 0; j<graph.get(i).size(); j++) {
+				d.add(graph.get(i).get(j));
+			}
+			dist.add(d);
+		}
+  
+        for (int k = 0; k < graph.size(); k++) 
+        { 
+            for (int i = 0; i < graph.size(); i++) 
+            { 
+                for (int j = 0; j < graph.size(); j++) 
+                { 
+                    if (dist.get(i).get(k) * dist.get(k).get(j) > dist.get(i).get(j)) 
+                        dist.get(i).set(j, dist.get(i).get(k) * dist.get(k).get(j)); 
+                } 
+            } 
+        } 
+  
+        // Print the shortest distance matrix
+        return dist;
+	}
 
 	@Override
 	public Vector kruskall() {
@@ -290,7 +316,6 @@ public class GrafoMatrizAdyacenciaImplementacion<T> extends GrafoMatrizAdyacenci
 		return null;
 	}
 
-	@Override
 	public int getVertexPosition(Object value) {
 		if(id.containsKey(value)== false) {
 			return -1;

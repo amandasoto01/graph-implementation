@@ -60,10 +60,10 @@ public class Main {
 		
 		
 		Vector<Pair<String, Double>> res = g.dijkstra("TBP");
-		int pos = g.getVertexPosition(res.get(res.size()-1).getFirst());
-		while(pos != g.getVertexPosition(res.get(pos).getFirst())){
+		int pos = ((GrafoMatrizAdyacenciaImplementacion<String>) g).getVertexPosition(res.get(res.size()-1).getFirst());
+		while(pos != ((GrafoMatrizAdyacenciaImplementacion<String>) g).getVertexPosition(res.get(pos).getFirst())){
 			System.out.println(res.get(pos).getFirst());
-			pos = g.getVertexPosition(res.get(pos).getFirst());
+			pos = ((GrafoMatrizAdyacenciaImplementacion<String>) g).getVertexPosition(res.get(pos).getFirst());
 		}
 		return;
 	}
@@ -102,5 +102,38 @@ public class Main {
 		}
 	}
 
-	
+	static void cambioDeMonedas() {
+		//Para el cambio de monedas se puede construir una matriz como un grafo
+		//En donde cada posicion de la matriz representa la tasa de cambio entre
+		//la moneda i y la moneda j
+		//Para encontrar la tasa de cambio mas optima entre una moneda y otra se puede
+		//hallar el camino mas corto utilizando el algoritmo de Floyd Warshall pero
+		//en vez de realizar una suma del valor de las monedas, se multiplican las tasas
+		//de cambio
+		
+		Grafo<String> g = new GrafoMatrizAdyacenciaImplementacion<String>();
+		
+		g.addVertex("dolar");
+		g.addVertex("peso");
+		g.addVertex("libra");
+		
+		g.addEdge("dolar", "dolar", 1.0);
+		g.addEdge("peso", "peso", 1.0);
+		g.addEdge("libra", "libra", 1.0);
+		
+		g.addEdge("dolar", "peso", 0.2);
+		g.addEdge("peso", "dolar", 5.0);
+		
+		g.addEdge("dolar", "libra", 2.0);
+		g.addEdge("libra", "dolar", 0.5);
+		
+		g.addEdge("libra", "peso", 0.1);
+		g.addEdge("peso", "libra", 10.0);
+		
+		Vector<Vector<Double> > tasasDeCambio = ((GrafoMatrizAdyacenciaImplementacion<String>) g).floydWarshallByMultiplication();
+		//El vector de tasas de cambio contiene la tasa mas optima de una moneda a otra
+		
+		
+		
+	}
 }

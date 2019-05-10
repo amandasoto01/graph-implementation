@@ -17,6 +17,4 @@ public abstract class Grafo<T> {
 	public abstract Vector< Vector<Double> > floydWarshall (); // de todos a todos
 	public abstract Vector< T > kruskall (); //arbol de expansion minima - algoritmo voraz 
 	public abstract Vector< T > prim (); //arbol de expansion minima - programacion dinamica 
-	
-	public abstract int getVertexPosition(T value);
 }

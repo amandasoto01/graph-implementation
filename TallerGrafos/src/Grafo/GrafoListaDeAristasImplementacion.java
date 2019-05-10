@@ -119,10 +119,4 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 		return null;
 	}
 
-	@Override
-	public int getVertexPosition(Object value) {
-		// TODO Auto-generated method stub
-		return -1;
-	}
-
 }
