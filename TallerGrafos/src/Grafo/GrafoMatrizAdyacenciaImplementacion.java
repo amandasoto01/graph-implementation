@@ -323,6 +323,11 @@ public class GrafoMatrizAdyacenciaImplementacion<T> extends GrafoMatrizAdyacenci
 		return id.get(value);
 	}
 
+	@Override
+	public Pair<Boolean, Vector<T>> bellmanFord(Object src) {
+		return null;
+	}
+
 }
 
 class PairDoublePairIntegerIntegerComparator implements Comparator<Pair<Double, Pair<Integer, Integer> > > 

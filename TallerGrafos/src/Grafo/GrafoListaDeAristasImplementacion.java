@@ -28,6 +28,8 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 		
 		
 	}
+
+	private static final Double INF = 10000000.0;
 	
 	List <Arista> aristas = new ArrayList(); 
 	public Map <T,Integer> id;
@@ -48,6 +50,12 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 		this.aristas = aristas;
 		this.id = id;
 		this.di = di;
+	}
+
+	public GrafoListaDeAristasImplementacion() {
+		aristas= new ArrayList<>();
+		id = new HashMap<>();
+		di = new HashMap<>();
 	}
 
 	@Override
@@ -117,6 +125,46 @@ public class GrafoListaDeAristasImplementacion<T> extends GrafoMatrizAdyacencia 
 	@Override
 	public Vector prim() {
 		return null;
+	}
+
+	@Override
+	public Pair<Boolean, Vector<T>> bellmanFord(Object src) {
+Vector<Double> dist = new Vector<>(); 
+		
+		int pSrc = id.get(src);
+		  
+        for (int i=0; i<id.size(); ++i) {
+        	dist.add(INF);
+        }
+
+        dist.set(pSrc, 0.0);
+  
+        for (int i=1; i<id.size(); ++i) 
+        { 
+            for (int j=0; j<aristas.size(); ++j) 
+            { 
+                int u = id.get(aristas.get(j).origen); 
+                int v = id.get(aristas.get(j).destino); 
+                Double weight = aristas.get(j).peso; 
+                if (dist.get(u)!=INF && 
+                		dist.get(u)+ weight< dist.get(v)) 
+                	dist.set(v,dist.get(u)+weight); 
+            } 
+        } 
+  
+        for (int j=0; j<aristas.size(); ++j) 
+        { 
+        	
+        	 int u = id.get(aristas.get(j).origen); 
+             int v = id.get(aristas.get(j).destino); 
+             Double weight = aristas.get(j).peso; 
+             if (dist.get(u)!=INF && 
+             		dist.get(u)+ weight< dist.get(v)) {
+            	 return new Pair<Boolean,Vector<T>>(false, null);
+             }
+        } 
+        return new Pair<Boolean,Vector<T>>(true,null);
+     
 	}
 
 }

@@ -1,6 +1,7 @@
 import java.util.Vector;
 
 import Grafo.Grafo;
+import Grafo.GrafoListaDeAristasImplementacion;
 import Grafo.GrafoMatrizAdyacenciaImplementacion;
 import Utils.Pair;
 
@@ -13,6 +14,11 @@ public class Main {
 		
 		cambioDeMonedas();
 		
+		gananciaCambioDeMonedas();
+		
+		enviarAguaSinRegar();
+		
+		arbolDeExpansionMinimaSoloConHojas();
 	}
 
 	static void tigreBurroPasto() {
@@ -143,5 +149,66 @@ public class Main {
 				System.out.println(" -> " + tasasDeCambio.get(i).get(j) + " con " + m2);
 			}
 		}
+	}
+
+	static void gananciaCambioDeMonedas() {
+		//Utilizar el algoritmo de bellman ford sobre un grafo que
+		//contenga las tasas de cambio de cada moneda con respecto a las otras
+		//si se detecta un ciclo negativo entonces es que se peude 
+		//tener ganancia sobre los cambios de moneda
+		
+		Grafo<String> g = new GrafoListaDeAristasImplementacion<String>();
+		
+		g.addVertex("dolar");
+		g.addVertex("peso");
+		g.addVertex("libra");
+		
+		g.addEdge("dolar", "dolar", 1.0);
+		g.addEdge("peso", "peso", 1.0);
+		g.addEdge("libra", "libra", 1.0);
+		
+		g.addEdge("dolar", "peso", 0.2);
+		g.addEdge("peso", "dolar", 5.0);
+		
+		g.addEdge("dolar", "libra", 2.0);
+		g.addEdge("libra", "dolar", 0.5);
+		
+		g.addEdge("libra", "peso", 0.1);
+		g.addEdge("peso", "libra", 10.0);
+		
+		//Intentar para todas las monedas
+		Pair<Boolean, Vector<String>> cycleCheck = g.bellmanFord("dolar");
+		if(cycleCheck.getFirst() == false) {
+			System.out.println("El dolar puede dar ganancias con el cambio");
+		}
+		
+		cycleCheck = g.bellmanFord("peso");
+		if(cycleCheck.getFirst() == false) {
+			System.out.println("El peso puede dar ganancias con el cambio");
+		}
+		
+		cycleCheck = g.bellmanFord("libra");
+		if(cycleCheck.getFirst() == false) {
+			System.out.println("La libra puede dar ganancias con el cambio");
+		}
+		
+	
+	}
+
+	static void enviarAguaSinRegar() {
+		//Este problema de grafos podria ser solucionado utilizando
+		//un algoritmo de flujo maximo (también conocido como de corte minimo)
+		//En donde se tienen tres nodos y las conexiones entre los mismos pueden ser
+		//las capacidades de flujo que cada uno de ellos tiene
+	}
+
+	static void arbolDeExpansionMinimaSoloConHojas() {
+		//Se debe armar el grafo
+		//Posteriormente se puede realizar para cada nodo el arbol de expansion minima
+		//y adicionalmente se puede realizar un algoritmo de dijkstra para calcular la 
+		//distancia de cada nodo a todos los demas
+		//si se obtiene un arbol de expansion minima que contenga todos los nodos y adicionalmente
+		//la distancia mas corta de dicho nodo a los demas nodos es 1 entonces se cumple con 
+		//el problema dado
 	}
 }
