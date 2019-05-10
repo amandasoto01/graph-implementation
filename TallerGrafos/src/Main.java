@@ -11,6 +11,8 @@ public class Main {
 		
 		verticeQuePuedaLlegarALosDemas();
 		
+		cambioDeMonedas();
+		
 	}
 
 	static void tigreBurroPasto() {
