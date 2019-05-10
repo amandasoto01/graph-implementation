@@ -135,7 +135,13 @@ public class Main {
 		Vector<Vector<Double> > tasasDeCambio = ((GrafoMatrizAdyacenciaImplementacion<String>) g).floydWarshallByMultiplication();
 		//El vector de tasas de cambio contiene la tasa mas optima de una moneda a otra
 		
-		
-		
+		for(int i = 0; i<3; ++i) {
+			int moneda = ((GrafoMatrizAdyacenciaImplementacion<String>) g).getVertexPosition(i);
+			System.out.println("Para la moneda " + moneda + " las tasas de cambio mas optimas son:");
+			for(int j = 0; j<3; ++j) {
+				int m2 = ((GrafoMatrizAdyacenciaImplementacion<String>) g).getVertexPosition(j);
+				System.out.println(" -> " + tasasDeCambio.get(i).get(j) + " con " + m2);
+			}
+		}
 	}
 }
